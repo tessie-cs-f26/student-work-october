@@ -4,7 +4,6 @@
 
 ```
 index.md                      the front page (a table of programs)
-mini-coi.js                   lets typed input() work on GitHub Pages (leave it alone)
 programs/
   hello-counter/
     index.html                the page for one program
@@ -18,7 +17,7 @@ programs/
 3. In the repository's Settings, open Pages, choose "Deploy from a branch", pick `main`, and save.
 4. Wait up to 10 minutes, then visit `https://username.github.io`.
 
-`mini-coi.js` must stay at the top level of the repository, because every project page loads it as `/mini-coi.js`. The links also assume the site lives at the root, which is true for a `username.github.io` repository.
+Each program page works at any repository address, because its links are relative. If you move a project folder deeper or shallower, adjust the `../../` in the "All programs" link.
 
 ## Add a student program
 
@@ -31,4 +30,4 @@ programs/
 
 - Run it on the live page. Programs that use `print`, `input`, `if` and `while` should work. Programs that use turtle or add-on libraries may not.
 - Use first names only, and check your school's policy and family permission for posting student work.
-- If a program never shows output or never accepts typing, reload once. The first visit reloads itself one time to switch on input support.
+- Answers to `input()` appear in a pop-up box, and the questions and answers are shown in the black box. If a visitor ticks "don't allow dialogs," reloading the page brings them back.
