@@ -4,4 +4,5 @@ Programs written by students in our intro Python class. Open a program to run it
 
 | Program | Student | What it does |
 |---|---|---|
-| [Hello Counter](programs/hello-counter/) | [first name] | Asks your name, counts to three, and asks if you like Python. |
+| [Baseball](programs/baseball/) | Noah | Computes advanced baseball stats from fundamental ones. |
+| [Baking Measurement](programs/baking/) | Samika | Converts units of measurement used in baking. |

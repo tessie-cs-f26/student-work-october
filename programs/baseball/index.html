@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- EDIT 1: the program's title (shows on the browser tab) -->
+  <title>Baseball Calculator</title>
+
+  <link rel="stylesheet" href="https://pyscript.net/releases/2026.3.1/core.css">
+  <script type="module" src="https://pyscript.net/releases/2026.3.1/core.js"></script>
+
+  <style>
+    :root {
+      --paper: #f6f8fc;
+      --grid: #dde5f1;
+      --ink: #1b2540;
+      --soft: #4a5672;
+      --blue: #2347c5;
+      --blue-dark: #1a3799;
+      --card: #ffffff;
+      --edge: #c3cfe3;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 28px 28px;
+      font-family: "Avenir Next", "Segoe UI", Candara, "Trebuchet MS", sans-serif;
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 28px 20px 64px;
+    }
+
+    a { color: var(--blue); }
+    a:hover { color: var(--blue-dark); }
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid #f2b705;
+      outline-offset: 3px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .back:hover { text-decoration: underline; }
+
+    h1 {
+      margin: 0 0 4px;
+      font-size: 2.6rem;
+      line-height: 1.1;
+      font-weight: 800;
+    }
+
+    .byline {
+      margin: 0 0 24px;
+      color: var(--soft);
+      font-size: 1.05rem;
+    }
+
+    .sheet {
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin-bottom: 24px;
+    }
+
+    .sheet h2 {
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .sheet p { margin: 0 0 10px; max-width: 62ch; }
+    .sheet p:last-child { margin-bottom: 0; }
+
+    .screen {
+      margin-top: 12px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid var(--ink);
+      background: #000;
+      min-height: 120px;
+    }
+
+    .actions { margin-top: 14px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+    button {
+      font: inherit;
+      font-weight: 700;
+      color: #fff;
+      background: var(--blue);
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 18px;
+      min-height: 44px;
+      cursor: pointer;
+    }
+    button:hover { background: var(--blue-dark); }
+
+    .hint { color: var(--soft); font-size: 0.95rem; }
+
+    pre {
+      margin: 0;
+      padding: 16px;
+      overflow-x: auto;
+      background: #f1f4fa;
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      font-family: ui-monospace, "Cascadia Code", Consolas, Menlo, monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+<main>
+  <!-- EDIT 2: the link back to the showcase front page. Leave as is for the standard layout. -->
+  <a class="back" href="../../">&larr; All programs</a>
+
+  <!-- EDIT 3: program title and the author's FIRST NAME ONLY -->
+  <h1>Baseball Calculator</h1>
+  <p class="byline">By Noah</p>
+
+  <section class="sheet">
+    <h2>What it does</h2>
+    <!-- EDIT 4: one or two plain sentences about the program -->
+    <p>This program computes advanced baseball statistics given fundamental statistics.</p>
+  </section>
+
+  <section class="sheet">
+    <h2>Run it</h2>
+    <p class="hint">The first run takes a few seconds while Python loads. Type each answer in the pop-up box. Your questions and answers show up in the black box.</p>
+
+    <!-- Step 1: make input() open the browser's pop-up box. Leave this script as it is. -->
+    <script type="py">
+import builtins
+from pyscript import window
+
+def browser_input(prompt=""):
+    answer = window.prompt(prompt)
+    if answer is None:
+        answer = ""
+    print(prompt + answer)
+    return answer
+
+builtins.input = browser_input
+    </script>
+
+    <!-- Step 2: run the student's program. src points at this folder's main.py. -->
+    <div class="screen">
+      <script type="py" terminal src="./main.py"></script>
+    </div>
+
+    <div class="actions">
+      <button type="button" onclick="location.reload()">Run again</button>
+      <span class="hint">If nothing appears, reload the page once.</span>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <h2>The code</h2>
+    <pre><code id="source">Loading the code...</code></pre>
+    <p class="hint" style="margin-top:10px">Or open <a href="./main.py">main.py</a> as plain text.</p>
+  </section>
+</main>
+
+<script>
+  // Shows main.py on the page, so the code is always the same code that runs.
+  fetch("./main.py")
+    .then(function (r) { return r.text(); })
+    .then(function (t) { document.getElementById("source").textContent = t; })
+    .catch(function () {
+      document.getElementById("source").textContent = "Could not load main.py.";
+    });
+</script>
+</body>
+</html>
