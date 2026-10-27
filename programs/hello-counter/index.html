@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Must be the first script. It lets the Python box accept typing on GitHub Pages.
+       The path goes up two folders to the top of the repository, where mini-coi.js lives. -->
+  <script src="../../mini-coi.js"></script>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -145,26 +149,38 @@
 
   <section class="sheet">
     <h2>Run it</h2>
-    <p class="hint">The first run takes a few seconds while Python loads. Type each answer in the pop-up box. Your questions and answers show up in the black box.</p>
+    <p class="hint">The first run takes a few seconds while Python loads. Type your answers in the black box. On some browsers they appear in a pop-up box instead.</p>
 
-    <!-- Step 1: make input() open the browser's pop-up box. Leave this script as it is. -->
-    <script type="py">
-import builtins
-from pyscript import window
-
-def browser_input(prompt=""):
-    answer = window.prompt(prompt)
-    if answer is None:
-        answer = ""
-    print(prompt + answer)
-    return answer
-
-builtins.input = browser_input
-    </script>
-
-    <!-- Step 2: run the student's program. src points at this folder's main.py. -->
     <div class="screen">
-      <script type="py" terminal src="./main.py"></script>
+      <!-- Leave this script as it is. It picks how the program runs:
+           typing inside the black box when the browser allows it,
+           otherwise a pop-up box for each input(). It runs the file main.py in this folder. -->
+      <script>
+        (function () {
+          var close = "<\/" + "script>";
+          var html;
+          if (window.crossOriginIsolated) {
+            html = '<script type="py" terminal worker src="./main.py">' + close;
+          } else {
+            var py = [
+              "import builtins",
+              "from pyscript import window",
+              "",
+              "def browser_input(prompt=''):",
+              "    answer = window.prompt(prompt)",
+              "    if answer is None:",
+              "        answer = ''",
+              "    print(prompt + answer)",
+              "    return answer",
+              "",
+              "builtins.input = browser_input"
+            ].join("\n");
+            html = '<script type="py">' + py + close +
+                   '<script type="py" terminal src="./main.py">' + close;
+          }
+          document.write(html);
+        })();
+      </script>
     </div>
 
     <div class="actions">
@@ -191,4 +207,3 @@ builtins.input = browser_input
 </script>
 </body>
 </html>
-
