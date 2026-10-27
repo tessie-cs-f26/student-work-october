@@ -1,5 +1,5 @@
 # Baseball Calculator
-# Name: Noah Deng
+# Name: Noah
 # Description: This calculator takes input for basic baseball statistics and calculates more complicated ones.
 # ================================
 

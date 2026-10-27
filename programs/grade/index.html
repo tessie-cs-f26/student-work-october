@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Must be the first script. It lets the Python box accept typing on GitHub Pages.
+       The path goes up two folders to the top of the repository, where mini-coi.js lives. -->
+  <script src="../../mini-coi.js"></script>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -97,6 +101,8 @@
       min-height: 120px;
     }
 
+    .screen p.wait { margin: 0; padding: 16px; color: #fff; font-family: ui-monospace, Consolas, Menlo, monospace; font-size: 0.95rem; }
+
     .actions { margin-top: 14px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 
     button {
@@ -134,7 +140,7 @@
   <a class="back" href="../../">&larr; All programs</a>
 
   <!-- EDIT 3: program title and the author's FIRST NAME ONLY -->
-  <h1>Hello Counter</h1>
+  <h1>Grade Average Calculator</h1>
   <p class="byline">By Jasmina</p>
 
   <section class="sheet">
@@ -145,26 +151,57 @@
 
   <section class="sheet">
     <h2>Run it</h2>
-    <p class="hint">The first run takes a few seconds while Python loads. Type each answer in the pop-up box. Your questions and answers show up in the black box.</p>
+    <p class="hint">The first run takes a few seconds while Python loads. Type your answers in the black box. On some browsers they appear in a pop-up box instead.</p>
 
-    <!-- Step 1: make input() open the browser's pop-up box. Leave this script as it is. -->
-    <script type="py">
-import builtins
-from pyscript import window
-
-def browser_input(prompt=""):
-    answer = window.prompt(prompt)
-    if answer is None:
-        answer = ""
-    print(prompt + answer)
-    return answer
-
-builtins.input = browser_input
-    </script>
-
-    <!-- Step 2: run the student's program. src points at this folder's main.py. -->
     <div class="screen">
-      <script type="py" terminal src="./main.py"></script>
+      <!-- Leave this script as it is. It picks how the program runs:
+           typing inside the black box when the browser allows it, otherwise a pop-up box for each input().
+           On a visitor's very first visit it reloads the page once, so the box version can switch on.
+           It runs the file main.py in this folder. -->
+      <script>
+        (function () {
+          var close = "<\/" + "script>";
+
+          // Reload only once per browser tab session, so the page can never loop.
+          var canTry = false;
+          try {
+            if (sessionStorage.getItem("coiTried") !== "1") {
+              sessionStorage.setItem("coiTried", "1");
+              canTry = sessionStorage.getItem("coiTried") === "1";
+            }
+          } catch (e) {}
+
+          var html;
+          if (window.crossOriginIsolated) {
+            // Typing happens inside the black box.
+            html = '<script type="py" terminal worker src="./main.py">' + close;
+          } else if (canTry && "serviceWorker" in navigator) {
+            // First visit: wait for the helper to switch on, then reload once.
+            html = '<p class="wait">Getting ready...</p>';
+            var go = function () { location.reload(); };
+            navigator.serviceWorker.ready.then(go);
+            setTimeout(go, 4000);
+          } else {
+            // Fallback: answers are typed in a pop-up box.
+            var py = [
+              "import builtins",
+              "from pyscript import window",
+              "",
+              "def browser_input(prompt=''):",
+              "    answer = window.prompt(prompt)",
+              "    if answer is None:",
+              "        answer = ''",
+              "    print(prompt + answer)",
+              "    return answer",
+              "",
+              "builtins.input = browser_input"
+            ].join("\n");
+            html = '<script type="py">' + py + close +
+                   '<script type="py" terminal src="./main.py">' + close;
+          }
+          document.write(html);
+        })();
+      </script>
     </div>
 
     <div class="actions">
